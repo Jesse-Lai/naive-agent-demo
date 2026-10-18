@@ -454,7 +454,11 @@ html:root body :is(.paper-fig-label, .paper-fig-win-label) { fill: var(--muted-f
 html:root body .paper-fig-win-label { fill: var(--foreground); }
 html:root body .paper-fig-ref { stroke: var(--muted-foreground); }
 /* Featured previews share the workspace base color and content-surface edge. */
-#featuredCases .featured-case { display: grid; grid-template-rows: subgrid; grid-row: span 2; gap: 10px; min-width: 0; }
+#featuredCases .featured-case { display: flex; flex-direction: column; align-items: stretch; min-width: 0; gap: 0; padding: 0; background: transparent; border: 0; box-shadow: none; }
+#featuredCases .case-cover { display: block; width: 100%; aspect-ratio: 8 / 5; object-fit: cover; border-radius: 16px; transition: filter .2s; }
+#featuredCases button:hover .case-cover { filter: brightness(.97); }
+#featuredCases .case-card-title { margin: 14px 2px 0; font-size: 15px; line-height: 1.5; font-weight: 500; color: var(--foreground); }
+#featuredCases .case-card-time { margin: 6px 2px 0; font-size: 12px; line-height: 1.5; color: var(--muted-foreground); }
 html:root body #featuredCases .paper-sheet {
   display: flex;
   flex-direction: column;
@@ -890,149 +894,23 @@ html:root body #sidebar .settings-entry .user-avatar { width: 28px; height: 28px
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-3 mt-6 items-stretch">
 
-            <!-- case 1: GRPO on nanochat d20 -->
-            <button onclick="openCase('case1')" class="featured-case group text-left">
-              <div class="paper-sheet rounded-md px-5 pt-5 pb-4">
-                <div class="text-center">
-                  <div class="paper-eyebrow text-[8px] tracking-[.16em] uppercase">naive Autonomous Research · Demo Run #003</div>
-                  <h3 class="paper-title text-[12.5px] leading-snug font-bold mt-2">Group Relative Policy Optimization: Critic-Free Reinforcement Learning Post-Training for a 561M-Parameter Reasoner</h3>
-                  <div class="paper-authors text-[9px] italic mt-1.5">naive agents, with human oversight · nanochat d20 · 8×H100</div>
-                </div>
-                <div class="paper-rule my-2.5"></div>
-                <p class="paper-abs text-justify text-[9px] leading-[1.6]"><b>Abstract—</b>Sub-billion “speedrun” models can be trained for ~$100, but their RL post-training recipes remain folklore. We report a 100-run, ten-round automated search: ten previously-unpublished component combinations, evolved as independent lineages with <i>no early retirement</i>. On nanochat d20 (GSM8K 4.55 after SFT), the winning lineage — <b>GRPO</b>: PPO-style clipping + a per-question group baseline with variance normalization + an unbiased in-loss KL — climbed 8.6→<b>9.8</b> (2.15× the SFT start); the best alternative plateaued at 7.95. No regression on MMLU/ARC/HumanEval; ≈163 node-hours in one week.</p>
-                <div class="paper-figure">
-                  <svg viewBox="0 0 240 108" class="w-full h-auto" role="img" aria-label="Ten lineages over ten rounds">
-                    <line class="paper-fig-grid" x1="24" y1="23.5" x2="232" y2="23.5"/>
-                    <line class="paper-fig-grid" x1="24" y1="49.3" x2="232" y2="49.3"/>
-                    <line class="paper-fig-grid" x1="24" y1="75.1" x2="232" y2="75.1"/>
-                    <text class="paper-fig-label" x="20" y="25.5" text-anchor="end">9</text>
-                    <text class="paper-fig-label" x="20" y="51.3" text-anchor="end">7</text>
-                    <text class="paper-fig-label" x="20" y="77.1" text-anchor="end">5</text>
-                    <line class="paper-fig-ref" x1="24" y1="41.8" x2="232" y2="41.8"/>
-                    <text class="paper-fig-label" x="27" y="40" >naive RL 7.58</text>
-                    <line class="paper-fig-ref" x1="24" y1="80.9" x2="232" y2="80.9"/>
-                    <text class="paper-fig-label" x="27" y="79.1">SFT 4.55</text>
-                    <polyline class="paper-fig-line" points="24.0,48.0 47.1,44.1 70.2,41.5 93.3,40.3 116.4,39.0 139.6,38.3 162.7,37.7 185.8,37.7 208.9,37.0 232.0,37.0"/>
-                    <polyline class="paper-fig-line" points="24.0,50.6 47.1,48.0 70.2,46.7 93.3,45.4 116.4,44.8 139.6,44.1 162.7,43.5 185.8,43.5 208.9,42.8 232.0,42.8"/>
-                    <polyline class="paper-fig-line" points="24.0,54.5 47.1,51.9 70.2,49.3 93.3,48.0 116.4,46.7 139.6,45.4 162.7,44.8 185.8,44.1 208.9,44.1 232.0,43.5"/>
-                    <polyline class="paper-fig-line" points="24.0,57.0 47.1,54.5 70.2,51.9 93.3,49.3 116.4,48.0 139.6,47.4 162.7,46.7 185.8,46.1 208.9,45.4 232.0,45.4"/>
-                    <polyline class="paper-fig-line" points="24.0,60.9 47.1,58.3 70.2,55.7 93.3,54.5 116.4,53.2 139.6,52.5 162.7,51.9 185.8,51.9 208.9,51.2 232.0,50.6"/>
-                    <polyline class="paper-fig-line" points="24.0,63.5 47.1,60.9 70.2,58.3 93.3,55.7 116.4,54.5 139.6,53.8 162.7,53.2 185.8,52.5 208.9,51.9 232.0,51.9"/>
-                    <polyline class="paper-fig-line" points="24.0,69.9 47.1,66.1 70.2,63.5 93.3,60.9 116.4,59.6 139.6,58.3 162.7,57.7 185.8,57.0 208.9,56.4 232.0,55.7"/>
-                    <polyline class="paper-fig-line" points="24.0,73.8 47.1,69.9 70.2,67.4 93.3,64.8 116.4,63.5 139.6,62.2 162.7,60.9 185.8,60.3 208.9,59.6 232.0,59.6"/>
-                    <polyline class="paper-fig-line" points="24.0,84.1 47.1,76.4 70.2,71.2 93.3,67.4 116.4,64.8 139.6,63.5 162.7,62.2 185.8,61.5 208.9,60.9 232.0,60.9"/>
-                    <polyline class="paper-fig-win" points="24.0,28.6 47.1,23.5 70.2,20.9 93.3,18.3 116.4,17.0 139.6,15.7 162.7,14.5 185.8,13.8 208.9,13.2 232.0,13.2"/>
-                    <circle class="paper-fig-dot" cx="232" cy="13.2" r="2"/>
-                    <text class="paper-fig-win-label" x="230" y="9" text-anchor="end">GRPO 9.8</text>
-                    <line class="paper-fig-axis" x1="24" y1="8" x2="24" y2="92"/>
-                    <line class="paper-fig-axis" x1="24" y1="92" x2="232" y2="92"/>
-                    <text class="paper-fig-label" x="24" y="100">round 1</text>
-                    <text class="paper-fig-label" x="232" y="100" text-anchor="end">round 10</text>
-                  </svg>
-                  <div class="paper-cap text-center text-[8px] mt-1.5">Figure 1: Ten lineages, ten rounds, no early retirement.</div>
-                </div>
-              </div>
-              <div class="px-1">
-                <div class="text-sm font-medium text-zinc-800 flex items-center justify-between gap-2">
-                  <span data-i18n="case1Title">把 561M 小模型的数学推理翻倍：在 nanochat 上用 100 次实验摸清 RL 配方空间</span>
-                  <span class="shrink-0 text-zinc-300 group-hover:text-zinc-700 transition-colors"><svg class="app-icon" data-icon="arrow-right" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="./assets/icons/lucide-sprite.svg#arrow-right"></use></svg></span>
-                </div>
-                <div class="flex flex-wrap gap-1.5 mt-1.5">
-                  <span class="text-[11px] text-zinc-500 border border-zinc-200 rounded-full px-2 py-0.5 font-mono">GSM8K 4.55 → 9.8</span>
-                  <span class="text-[11px] text-zinc-500 border border-zinc-200 rounded-full px-2 py-0.5" data-i18n="case1Stat2">10 谱系 × 10 轮 · 100 runs</span>
-                  <span class="text-[11px] text-zinc-500 border border-zinc-200 rounded-full px-2 py-0.5" data-i18n="case1Stat3">8×H100 · 163 节点·时</span>
-                </div>
-              </div>
+            <button onclick="openCase('case1')" class="featured-case text-left" aria-labelledby="featuredCase1Title">
+              <img class="case-cover" src="./assets/cases/reasoning.svg" alt="" width="960" height="600" loading="lazy">
+              <h3 id="featuredCase1Title" class="case-card-title" data-i18n="case1CardTitle">让小模型的数学推理翻倍</h3>
+              <p class="case-card-time" data-i18n="case1CardTime">研究耗时 · 1 周</p>
             </button>
 
-            <!-- case 2: illustrative research data -->
             <article class="featured-case text-left" aria-labelledby="featuredCase2Title">
-              <div class="paper-sheet rounded-md px-5 pt-5 pb-4">
-                <div class="text-center">
-                  <div class="paper-eyebrow text-[8px] tracking-[.16em] uppercase">naive Autonomous Research · Demo Run #004</div>
-                  <h3 id="featuredCase2Title" class="paper-title text-[12.5px] leading-snug font-bold mt-2">Efficient Code Specialization: Budget-Constrained LoRA Search for a 1.5B-Parameter Code Model</h3>
-                  <div class="paper-authors text-[9px] italic mt-1.5">naive agents, with human oversight · 1.5B code model · 2×A100</div>
-                </div>
-                <div class="paper-rule my-2.5"></div>
-                <p class="paper-abs text-justify text-[9px] leading-[1.6]"><b>Abstract—</b>Small code models are inexpensive to deploy, but fine-tuning quality depends on the interaction between data and adapter settings. We present an illustrative 40-run search across LoRA rank, learning rate, and code-data mixtures over eight rounds. Each candidate is evaluated on held-out programming tasks under a fixed compute budget. In this simulated study, the selected recipe improves <b>HumanEval pass@1 from 21.3% to 34.8%</b>, a gain of 13.5 percentage points. A mixed Python-and-reasoning dataset outperforms code-only training, while rank 32 balances quality and memory use. The final package includes adapter weights, evaluation traces, and a reproducible training configuration; total simulated cost is 48 GPU-hours.</p>
-                <div class="paper-figure">
-                  <svg viewBox="0 0 240 108" class="w-full h-auto" role="img" aria-label="Illustrative HumanEval pass at one: baseline 21.3 percent, selected adapter 34.8 percent after eight rounds.">
-                  <line class="paper-fig-grid" x1="24" y1="75.2" x2="232" y2="75.2"/>
-                  <text class="paper-fig-label" x="20" y="77.2" text-anchor="end">20</text>
-                  <line class="paper-fig-grid" x1="24" y1="41.6" x2="232" y2="41.6"/>
-                  <text class="paper-fig-label" x="20" y="43.6" text-anchor="end">30</text>
-                  <line class="paper-fig-grid" x1="24" y1="8.0" x2="232" y2="8.0"/>
-                  <text class="paper-fig-label" x="20" y="10.0" text-anchor="end">40</text>
-                  <line class="paper-fig-ref" x1="24" y1="70.8" x2="232" y2="70.8"/>
-                  <text class="paper-fig-label" x="27" y="67.8">Base 21.3%</text>
-                  <polyline class="paper-fig-line" points="24.0,70.8 53.7,64.4 83.4,59.1 113.1,54.4 142.9,50.3 172.6,46.0 202.3,44.0 232.0,42.9"/>
-                  <polyline class="paper-fig-line" points="24.0,70.8 53.7,68.5 83.4,64.4 113.1,60.4 142.9,56.4 172.6,54.4 202.3,52.4 232.0,50.3"/>
-                  <polyline class="paper-fig-win" points="24.0,70.8 53.7,61.4 83.4,50.3 113.1,41.9 142.9,37.9 172.6,29.8 202.3,27.8 232.0,25.5"/>
-                  <circle class="paper-fig-dot" cx="232" cy="25.5" r="2"/>
-                  <text class="paper-fig-win-label" x="230" y="20.5" text-anchor="end">LoRA 34.8%</text>
-                  <line class="paper-fig-axis" x1="24" y1="8" x2="24" y2="92"/>
-                  <line class="paper-fig-axis" x1="24" y1="92" x2="232" y2="92"/>
-                  <text class="paper-fig-label" x="24" y="100">round 1</text>
-                  <text class="paper-fig-label" x="232" y="100" text-anchor="end">round 8</text>
-                  </svg>
-                  <div class="paper-cap text-center text-[8px] mt-1.5">Figure 1: HumanEval pass@1 across eight search rounds.</div>
-                </div>
-              </div>
-              <div class="px-1">
-                <div class="text-sm font-medium text-zinc-800" data-i18n="case2Title">让 1.5B 代码模型更会写代码：40 次 LoRA 实验寻找高效微调配方</div>
-                <div class="flex flex-wrap gap-1.5 mt-1.5">
-                  <span class="text-[11px] text-zinc-500 border border-zinc-200 rounded-full px-2 py-0.5 font-mono">HumanEval 21.3% → 34.8%</span>
-                  <span class="text-[11px] text-zinc-500 border border-zinc-200 rounded-full px-2 py-0.5" data-i18n="case2Stat2">8 轮搜索 · 40 runs</span>
-                  <span class="text-[11px] text-zinc-500 border border-zinc-200 rounded-full px-2 py-0.5" data-i18n="case2Stat3">2×A100 · 48 GPU·时</span>
-                  <span class="text-[11px] text-zinc-400 px-1 py-0.5" data-i18n="caseMockData">示例数据</span>
-                </div>
-              </div>
+              <img class="case-cover" src="./assets/cases/code.svg" alt="" width="960" height="600" loading="lazy">
+              <h3 id="featuredCase2Title" class="case-card-title" data-i18n="case2CardTitle">让代码模型更会写代码</h3>
+              <p class="case-card-time" data-i18n="case2CardTime">计算用量 · 48 GPU·时（示例）</p>
             </article>
 
-            <!-- case 3: illustrative research data -->
             <article class="featured-case text-left" aria-labelledby="featuredCase3Title">
-              <div class="paper-sheet rounded-md px-5 pt-5 pb-4">
-                <div class="text-center">
-                  <div class="paper-eyebrow text-[8px] tracking-[.16em] uppercase">naive Autonomous Research · Demo Run #005</div>
-                  <h3 id="featuredCase3Title" class="paper-title text-[12.5px] leading-snug font-bold mt-2">Evidence-Aware Retrieval: Joint Optimization of Chunking, Hybrid Search, and Reranking for Research Question Answering</h3>
-                  <div class="paper-authors text-[9px] italic mt-1.5">naive agents, with human oversight · 12K documents · 1×A100</div>
-                </div>
-                <div class="paper-rule my-2.5"></div>
-                <p class="paper-abs text-justify text-[9px] leading-[1.6]"><b>Abstract—</b>Research assistants need relevant evidence before they can produce useful answers. We describe an illustrative search over document chunking, sparse–dense retrieval weights, and cross-encoder reranking on a 12,000-document research collection. Thirty-six configurations are compared over six rounds using 1,200 held-out questions and a fixed latency budget. In this simulated benchmark, <b>Recall@5 rises from 68.4% to 89.1%</b>, while citation precision improves from 74.2% to 92.6%. The selected pipeline combines overlapping 512-token chunks, hybrid retrieval, and reranking of the top 20 candidates. Median retrieval latency remains below 450 ms. The study delivers an index configuration, an evaluation set, and traceable evidence for each answer.</p>
-                <div class="paper-figure">
-                  <svg viewBox="0 0 240 108" class="w-full h-auto" role="img" aria-label="Illustrative Recall at five: baseline 68.4 percent, hybrid retrieval and reranking 89.1 percent after six rounds.">
-                  <line class="paper-fig-grid" x1="24" y1="92.0" x2="232" y2="92.0"/>
-                  <text class="paper-fig-label" x="20" y="94.0" text-anchor="end">60</text>
-                  <line class="paper-fig-grid" x1="24" y1="56.0" x2="232" y2="56.0"/>
-                  <text class="paper-fig-label" x="20" y="58.0" text-anchor="end">75</text>
-                  <line class="paper-fig-grid" x1="24" y1="20.0" x2="232" y2="20.0"/>
-                  <text class="paper-fig-label" x="20" y="22.0" text-anchor="end">90</text>
-                  <line class="paper-fig-ref" x1="24" y1="71.8" x2="232" y2="71.8"/>
-                  <text class="paper-fig-label" x="27" y="68.8">Dense 68.4%</text>
-                  <polyline class="paper-fig-line" points="24.0,71.8 65.6,63.0 107.2,55.0 148.8,48.1 190.4,43.8 232.0,39.9"/>
-                  <polyline class="paper-fig-line" points="24.0,71.8 65.6,66.6 107.2,60.6 148.8,56.5 190.4,53.8 232.0,53.1"/>
-                  <polyline class="paper-fig-win" points="24.0,71.8 65.6,54.1 107.2,42.6 148.8,33.7 190.4,26.7 232.0,22.2"/>
-                  <circle class="paper-fig-dot" cx="232" cy="22.2" r="2"/>
-                  <text class="paper-fig-win-label" x="230" y="17.2" text-anchor="end">Hybrid 89.1%</text>
-                  <line class="paper-fig-axis" x1="24" y1="8" x2="24" y2="92"/>
-                  <line class="paper-fig-axis" x1="24" y1="92" x2="232" y2="92"/>
-                  <text class="paper-fig-label" x="24" y="100">round 1</text>
-                  <text class="paper-fig-label" x="232" y="100" text-anchor="end">round 6</text>
-                  </svg>
-                  <div class="paper-cap text-center text-[8px] mt-1.5">Figure 1: Recall@5 across six retrieval search rounds.</div>
-                </div>
-              </div>
-              <div class="px-1">
-                <div class="text-sm font-medium text-zinc-800" data-i18n="case3Title">让研究回答更有依据：联合优化检索与重排，提升证据召回率</div>
-                <div class="flex flex-wrap gap-1.5 mt-1.5">
-                  <span class="text-[11px] text-zinc-500 border border-zinc-200 rounded-full px-2 py-0.5 font-mono">Recall@5 68.4% → 89.1%</span>
-                  <span class="text-[11px] text-zinc-500 border border-zinc-200 rounded-full px-2 py-0.5" data-i18n="case3Stat2">6 轮搜索 · 36 configs</span>
-                  <span class="text-[11px] text-zinc-500 border border-zinc-200 rounded-full px-2 py-0.5" data-i18n="case3Stat3">1×A100 · 18 GPU·时</span>
-                  <span class="text-[11px] text-zinc-400 px-1 py-0.5" data-i18n="caseMockData">示例数据</span>
-                </div>
-              </div>
+              <img class="case-cover" src="./assets/cases/retrieval.svg" alt="" width="960" height="600" loading="lazy">
+              <h3 id="featuredCase3Title" class="case-card-title" data-i18n="case3CardTitle">让研究回答更有依据</h3>
+              <p class="case-card-time" data-i18n="case3CardTime">计算用量 · 18 GPU·时（示例）</p>
             </article>
-
           </div>
         </div>
       </div>
@@ -1288,6 +1166,8 @@ const T = {
     modeArTitle:'循环进化模式', modeArDesc:'专为复杂任务而设计，给定目标后 agent 自我迭代进化，给出最优结果',
     arBadgeExit:'退出循环进化，回到全能模式',
     casesTitle:'精选案例', casesSub:'「循环进化」跑出的完整研究实录，以论文形式沉淀',
+    case1CardTitle:'让小模型的数学推理翻倍', case2CardTitle:'让代码模型更会写代码', case3CardTitle:'让研究回答更有依据',
+    case1CardTime:'研究耗时 · 1 周', case2CardTime:'计算用量 · 48 GPU·时（示例）', case3CardTime:'计算用量 · 18 GPU·时（示例）',
     case1Title:'把 561M 小模型的数学推理翻倍：在 nanochat 上用 100 次实验摸清 RL 配方空间',
     case1Stat2:'10 谱系 × 10 轮 · 100 runs', case1Stat3:'8×H100 · 163 节点·时',
     case2Title:'让 1.5B 代码模型更会写代码：40 次 LoRA 实验寻找高效微调配方',
@@ -1328,6 +1208,8 @@ const T = {
     modeArTitle:'Loop Evolution Mode', modeArDesc:'Built for complex tasks — give it a goal and the agent iterates and evolves on its own to deliver the optimal result.',
     arBadgeExit:'Exit Loop Evolution, back to Omni',
     casesTitle:'Featured Cases', casesSub:'Complete research runs from Loop Evolution, distilled as papers',
+    case1CardTitle:'Doubling small-model math reasoning', case2CardTitle:'Better code from a small model', case3CardTitle:'Research grounded in evidence',
+    case1CardTime:'Research duration · 1 week', case2CardTime:'Compute · 48 GPU-hours (example)', case3CardTime:'Compute · 18 GPU-hours (example)',
     case1Title:"Doubling a 561M model's math reasoning: a 100-run sweep of the RL recipe space",
     case1Stat2:'10 lineages × 10 rounds · 100 runs', case1Stat3:'8×H100 · 163 node-hrs',
     case2Title:'Better code from a 1.5B model: finding an efficient LoRA recipe in 40 runs',
