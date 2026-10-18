@@ -739,6 +739,7 @@ html:root body #sidebar #recentHeader { padding: 0 8px; margin-bottom: 12px; gap
 html:root body #sidebar #recentHeader > svg { display: none; }
 html:root body #sidebar [data-group] > [data-i18n] { padding: 0 8px; margin-top: 12px; margin-bottom: 6px; font-size: 12px; color: var(--muted-foreground); }
 html:root body #sidebar .recentItem { border-radius: 8px; }
+html:root body #sidebar .recentItem [data-rdot]:has(> span) { order: 2; margin-left: auto; }
 html:root body #sidebar .recentItem > [data-open] { min-height: 36px; padding: 8px; gap: 8px; }
 html:root body #sidebar [data-title] { font-size: 14px; font-weight: 400; color: var(--foreground); }
 html:root body #sidebar .settings-footer { padding: 8px; }
@@ -903,13 +904,13 @@ html:root body #sidebar .settings-entry .user-avatar { width: 28px; height: 28px
             <article class="featured-case text-left" aria-labelledby="featuredCase2Title">
               <img class="case-cover" src="./assets/cases/code-diffuse.jpg" alt="" width="960" height="600" loading="lazy">
               <h3 id="featuredCase2Title" class="case-card-title" data-i18n="case2CardTitle">让代码模型更会写代码</h3>
-              <p class="case-card-time" data-i18n="case2CardTime">计算用量 · 48 GPU·时（示例）</p>
+              <p class="case-card-time" data-i18n="case2CardTime">计算用量 · 48 GPU·时</p>
             </article>
 
             <article class="featured-case text-left" aria-labelledby="featuredCase3Title">
               <img class="case-cover" src="./assets/cases/retrieval-diffuse.jpg" alt="" width="960" height="600" loading="lazy">
               <h3 id="featuredCase3Title" class="case-card-title" data-i18n="case3CardTitle">让研究回答更有依据</h3>
-              <p class="case-card-time" data-i18n="case3CardTime">计算用量 · 18 GPU·时（示例）</p>
+              <p class="case-card-time" data-i18n="case3CardTime">计算用量 · 18 GPU·时</p>
             </article>
           </div>
         </div>
@@ -1167,7 +1168,7 @@ const T = {
     arBadgeExit:'退出循环进化，回到全能模式',
     casesTitle:'精选案例', casesSub:'「循环进化」跑出的完整研究实录，以论文形式沉淀',
     case1CardTitle:'让小模型的数学推理翻倍', case2CardTitle:'让代码模型更会写代码', case3CardTitle:'让研究回答更有依据',
-    case1CardTime:'研究耗时 · 1 周', case2CardTime:'计算用量 · 48 GPU·时（示例）', case3CardTime:'计算用量 · 18 GPU·时（示例）',
+    case1CardTime:'研究耗时 · 1 周', case2CardTime:'计算用量 · 48 GPU·时', case3CardTime:'计算用量 · 18 GPU·时',
     case1Title:'把 561M 小模型的数学推理翻倍：在 nanochat 上用 100 次实验摸清 RL 配方空间',
     case1Stat2:'10 谱系 × 10 轮 · 100 runs', case1Stat3:'8×H100 · 163 节点·时',
     case2Title:'让 1.5B 代码模型更会写代码：40 次 LoRA 实验寻找高效微调配方',
@@ -1209,7 +1210,7 @@ const T = {
     arBadgeExit:'Exit Loop Evolution, back to Omni',
     casesTitle:'Featured Cases', casesSub:'Complete research runs from Loop Evolution, distilled as papers',
     case1CardTitle:'Doubling small-model math reasoning', case2CardTitle:'Better code from a small model', case3CardTitle:'Research grounded in evidence',
-    case1CardTime:'Research duration · 1 week', case2CardTime:'Compute · 48 GPU-hours (example)', case3CardTime:'Compute · 18 GPU-hours (example)',
+    case1CardTime:'Research duration · 1 week', case2CardTime:'Compute · 48 GPU-hours', case3CardTime:'Compute · 18 GPU-hours',
     case1Title:"Doubling a 561M model's math reasoning: a 100-run sweep of the RL recipe space",
     case1Stat2:'10 lineages × 10 rounds · 100 runs', case1Stat3:'8×H100 · 163 node-hrs',
     case2Title:'Better code from a 1.5B model: finding an efficient LoRA recipe in 40 runs',
@@ -3118,9 +3119,8 @@ function openCase(id){
 }
 function ensureCaseRecent(){
   if(caseRec?.isConnected) return;
-  caseRec=addRecent(t('case1Recent'),'document',openRecentCase,{tag:t('researchTag')});
+  caseRec=addRecent(t('case1Recent'),'document',openRecentCase,{});
   caseRec.querySelector('[data-title]').dataset.i18n='case1Recent';
-  caseRec.querySelector('[data-tag]').dataset.i18n='researchTag';
   caseRec.querySelector('[data-open]').dataset.i18nTitle='case1Title';
   caseRec.querySelector('[data-open]').title=t('case1Title');
 }
@@ -3671,7 +3671,6 @@ function addRecent(title, icon, onClick, opts={}){
     <button data-open title="${esc(title)}" class="w-full text-left px-3 py-2 flex items-center gap-2.5 pr-2">
       <span data-rdot class="shrink-0 w-4 flex items-center justify-center"></span>
       <span data-title class="truncate flex-1 text-sm text-zinc-700">${esc(title)}</span>
-      ${opts.tag?`<span data-tag class="shrink-0 ml-1.5 text-[10px] font-medium text-emerald-700 bg-emerald-50 border border-emerald-100 rounded px-1.5 py-0.5">${esc(opts.tag)}</span>`:''}
     </button>
     <div data-actions class="absolute top-0 right-0 h-full flex items-center gap-0.5 pr-1.5 pl-8 opacity-0 group-hover:opacity-100 transition-opacity bg-[linear-gradient(to_left,#edeef0_70%,transparent)]">
       <button data-pin title="${t('menuPin')}" class="w-6 h-6 grid place-items-center rounded-md text-zinc-400 hover:bg-zinc-200 hover:text-zinc-700 transition"><svg class="app-icon w-3.5 h-3.5" data-icon="pin" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="./assets/icons/lucide-sprite.svg#pin"></use></svg></button>
@@ -4188,7 +4187,7 @@ function arBegin(v){
   $('arThread').innerHTML='';                   // fresh thread for this session
   arTopic=pickTopic(v);
   arIter=0; arFindings=0; arStats();
-  arSessions[id].rec = addRecent(v.length>20?v.slice(0,20)+'…':v, 'arrow-repeat-all', ()=>openArSession(id), {tag:t('researchTag'), status:'running'});
+  arSessions[id].rec = addRecent(v.length>20?v.slice(0,20)+'…':v, 'arrow-repeat-all', ()=>openArSession(id), {status:'running'});
   arUserBubble(v);
   arAssistant(`<div class="text-zinc-600">${t('threadStart')}<span class="text-zinc-800 font-medium">${esc(v)}</span></div>`);
   arState='running'; arControls(); arSetStatus('running'); arLoop();
