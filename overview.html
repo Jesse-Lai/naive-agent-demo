@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Naive AI 科研 Working Agent：项目背景、关键挑战与设计策略。">
+  <title>Naive AI · 产品设计思路</title>
+  <link rel="stylesheet" href="assets/icons/icons.css">
+  <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+  <style>
+    @font-face{font-family:Inter;src:url('assets/overview/InterVariable.woff2') format('woff2');font-weight:100 900;font-display:swap}
+    @font-face{font-family:Manrope;src:url('assets/overview/Manrope-wght.ttf') format('truetype');font-weight:200 800;font-display:swap}
+    :root{--bg:#f7f7f4;--fg:#26251e;--muted:#737269;--card:#efeee9;--border:#26251e20;--sage:#647b6c;--soft:#e8ede7;--heading:Manrope,Inter,"PingFang SC",sans-serif;--body:Inter,"PingFang SC","Microsoft YaHei",sans-serif;color-scheme:light}
+    
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:100px}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.9 var(--body);-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}button{font:inherit;color:inherit;cursor:pointer}h1,h2,h3,p{margin:0}h1,h2,h3{font-family:var(--heading)}::selection{background:#dce4d5}a:focus-visible,button:focus-visible{outline:2px solid var(--sage);outline-offset:5px}.skip{position:fixed;top:-100px;background:var(--fg);color:var(--bg);padding:8px 16px;z-index:30}.skip:focus{top:8px}.wrap{width:calc(100% - 48px);max-width:880px;margin-inline:auto}
+    header{height:76px}.nav{height:100%;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{display:block;width:112px;height:28px;background:var(--fg);mask:url('assets/brand/naive-lockup.svg') center/contain no-repeat;-webkit-mask:url('assets/brand/naive-lockup.svg') center/contain no-repeat}
+    .intro{padding-top:48px;padding-bottom:52px}.intro h1{font-size:clamp(32px,4.5vw,48px);line-height:1.4;font-weight:500;letter-spacing:-1.4px;margin-top:0}
+    section.chapter{margin-bottom:64px}.section-heading{display:flex;align-items:center;gap:16px;margin-bottom:25px}.section-number{font:500 13px/1 var(--heading);color:var(--sage);min-width:22px}.section-heading h2{font-size:28px;line-height:1.4;font-weight:600;letter-spacing:-.5px}.copy{line-height:1.95}.copy strong{font-weight:600}.audience{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:23px;font-size:12px}.audience-label{color:var(--muted);margin-right:6px}.audience span:not(.audience-label){padding:4px 12px;border:1px solid var(--border);border-radius:6px}
+    .flow{background:var(--card);border-radius:22px;corner-shape:squircle;padding:25px 26px;margin:28px 0 0}.flow figcaption{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:13px;font-weight:500}.flow ol{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));padding:0;margin:24px 0 0;list-style:none;gap:22px}.flow li{position:relative;font-size:12px;line-height:1.65}.flow li:not(:last-child):after{content:'';position:absolute;right:-16px;top:25px;width:15px;height:15px;background:var(--muted);-webkit-mask:url('assets/icons/arrow-right.svg') center/contain no-repeat;mask:url('assets/icons/arrow-right.svg') center/contain no-repeat}.flow li small{display:block;font:400 10px/1 var(--heading);color:var(--muted);margin-bottom:12px}.flow li b{font-weight:500}
+    .challenges{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding:0;margin:0;list-style:none}.challenges li{padding:27px 23px 28px;border-radius:22px;corner-shape:squircle;background:var(--card)}.card-icon{width:29px;height:29px;color:var(--sage);margin-bottom:21px}.challenges h3{font-size:18px;line-height:1.6;font-weight:500}.challenges p{font-size:14px;line-height:1.9;margin-top:12px;color:var(--muted)}
+    .strategy-intro{font-size:16px;color:var(--muted);margin-bottom:27px}.strategies{list-style:none;margin:0;padding:0}.strategies li{display:grid;grid-template-columns:40px 1fr;column-gap:18px;padding:26px 0;border-top:1px solid var(--border)}.strategy-index{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:var(--soft);color:var(--sage);font:500 12px/1 var(--heading);margin-top:2px}.strategy-title{display:flex;align-items:baseline;justify-content:space-between;gap:14px}.strategy-title h3{font-size:20px;font-weight:500}.strategies p{font-size:15px;line-height:1.9;color:var(--muted);margin-top:9px;max-width:720px}
+    
+    @media(min-width:1600px){.wrap{max-width:960px}}
+    @media(max-width:640px){header{height:65px}.brand{width:94px;height:25px}.intro{padding-top:48px;padding-bottom:38px}.intro h1{letter-spacing:-.8px}section.chapter{margin-bottom:42px}.section-heading h2{font-size:25px}.section-heading{margin-bottom:20px;gap:12px}.copy{font-size:15px}.audience{gap:8px}.audience-label{width:100%;margin:0}.flow{padding:22px}.flow ol{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:24px;column-gap:24px}.flow li:nth-child(3):after{transform:rotate(90deg);right:5px;top:53px}.flow li{font-size:12px}.challenges{grid-template-columns:1fr;gap:12px}.challenges li{display:grid;grid-template-columns:30px 1fr;gap:0 17px;padding:24px}.card-icon{grid-row:span 2;margin-top:2px;margin-bottom:0}.challenges p{margin-top:8px}.strategy-title{display:block}.strategy-title h3{font-size:18px}.strategies li{column-gap:12px;grid-template-columns:34px 1fr;padding:23px 0}.strategies p{font-size:14px}.strategy-intro{font-size:14px}}
+    .training-flow{background:transparent;border:1px solid var(--border);margin-top:24px}.training-flow figcaption{font-size:15px}.training-flow li b{font-size:13px}.training-flow li p{font-size:12px;line-height:1.85;color:var(--muted);margin-top:10px}
+    @media(max-width:640px){.training-flow ol{grid-template-columns:1fr;gap:20px}.training-flow li{padding-left:32px}.training-flow li small{position:absolute;left:0;top:5px;margin:0}.training-flow li p{margin-top:4px}.training-flow li:not(:last-child):after{transform:rotate(90deg);left:1px;right:auto;top:auto;bottom:-17px;font-size:12px}.training-flow figcaption{font-size:14px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+    @media print{header{display:none}.intro{padding-top:0}.wrap{width:100%;max-width:none}section.chapter{break-inside:avoid;margin-bottom:30px;padding-top:25px}body{font-size:13px}.intro h1{font-size:30px}.challenges p,.strategies p{font-size:12px}}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">跳至正文</a>
+  <header><div class="wrap nav"><a class="brand" href="#" aria-label="Naive AI · 返回顶部"></a></div></header>
+  <main id="main" class="wrap">
+    <div class="intro">
+      <h1>Naive Agent for research</h1>
+    </div>
+    <section class="chapter" id="background" aria-labelledby="background-title">
+      <div class="section-heading"><span class="section-number" aria-hidden="true">01</span><h2 id="background-title">项目背景</h2></div>
+      <p class="copy">模型研发需要反复进行环境配置、训练、评估和调优，过程<strong>耗时、成本高，也需要大量人工跟进</strong>。因此，我们希望提供一个面向科研场景的 Working Agent，在用户设定的目标和预算内，持续推进实验，帮助用户获得可验证、可复用的成果。</p>
+      <div class="audience" aria-label="目标用户"><span class="audience-label">目标用户</span><span>AI 科研人员</span><span>算法工程师</span><span>小型研究团队</span></div>
+      <figure class="flow">
+        <figcaption>核心使用流程</figcaption>
+        <ol><li><small>01</small><b>提出研究目标</b></li><li><small>02</small><b>确认方案与预算</b></li><li><small>03</small><b>配置环境</b></li><li><small>04</small><b>模型训练</b></li><li><small>05</small><b>评估与迭代</b></li><li><small>06</small><b>交付成果或部署</b></li></ol>
+      </figure>
+    </section>
+    <section class="chapter" id="challenges" aria-labelledby="challenges-title">
+      <div class="section-heading"><span class="section-number" aria-hidden="true">02</span><h2 id="challenges-title">关键挑战</h2></div>
+      <ul class="challenges">
+        <li><svg class="app-icon card-icon" data-icon="flowchart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="./assets/icons/lucide-sprite.svg#flowchart"></use></svg><h3>流程复杂</h3><p>涉及多个专业环节，用户难以快速理解整体进展。</p></li>
+        <li><svg class="app-icon card-icon" data-icon="clock" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="./assets/icons/lucide-sprite.svg#clock"></use></svg><h3>周期长、成本高</h3><p>用户需要知道投入是否有效，以及何时应该介入或停止。</p></li>
+        <li><svg class="app-icon card-icon" data-icon="shield-checkmark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="./assets/icons/lucide-sprite.svg#shield-checkmark"></use></svg><h3>结果不确定</h3><p>训练完成不代表目标达成，用户需要判断结果是否可信。</p></li>
+      </ul>
+      <figure class="flow training-flow" id="training-flow">
+        <figcaption>一次模型训练，经历哪些步骤？</figcaption>
+        <ol>
+          <li><small>01</small><b>准备数据</b><p>收集、清洗数据，划分训练、验证和测试集。</p></li>
+          <li><small>02</small><b>选择基础模型</b><p>选择合适的开源模型，评测初始能力作为基线。</p></li>
+          <li><small>03</small><b>配置训练</b><p>准备运行环境与算力，设定训练方法、参数和预算。</p></li>
+          <li><small>04</small><b>执行训练</b><p>按需继续预训练、微调或强化学习，记录进度并保存模型。</p></li>
+          <li><small>05</small><b>评估与调优</b><p>对比基线与新模型，检查效果提升和其他能力是否退化。</p></li>
+          <li><small>06</small><b>导出或部署</b><p>交付模型、配置与评估报告，按需部署为可调用的服务。</p></li>
+        </ol>
+      </figure>
+    </section>
+    <section class="chapter" id="strategy" aria-labelledby="strategy-title">
+      <div class="section-heading"><span class="section-number" aria-hidden="true">03</span><h2 id="strategy-title">设计策略</h2></div>
+      <p class="strategy-intro">让用户能够放心委托，并在关键时刻做出判断。</p>
+      <ol class="strategies">
+        <li><span class="strategy-index" aria-hidden="true">01</span><div><div class="strategy-title"><h3>用研究目标串联流程</h3></div><p>将复杂任务拆成清晰阶段，展示当前进展、阶段成果和下一步。</p></div></li>
+        <li><span class="strategy-index" aria-hidden="true">02</span><div><div class="strategy-title"><h3>让自主执行可控</h3></div><p>提前明确预算与执行边界，持续展示资源消耗，并支持关键节点确认、暂停和调整。</p></div></li>
+        <li><span class="strategy-index" aria-hidden="true">03</span><div><div class="strategy-title"><h3>用证据建立信任</h3></div><p>通过基线对比、评估结果和实验记录，帮助用户理解效果变化，并追溯每个结论。</p></div></li>
+      </ol>
+    </section>
+  </main>
+</body>
+</html>

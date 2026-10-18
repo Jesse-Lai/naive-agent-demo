@@ -1,0 +1,14 @@
+/* Lucide uses a consistent 2 px stroke on a 24 px grid. */
+:where(.app-icon) { width: 1em; height: 1em; }
+.app-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  vertical-align: -.125em;
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 2 !important;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+.app-icon:is([data-icon="star"], [data-icon="circle"]) { fill: currentColor !important; }

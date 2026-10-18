@@ -1,0 +1,284 @@
+{
+  "package": "lucide-react",
+  "version": "0.552.0",
+  "license": "ISC (MIT for portions derived from Feather)",
+  "upstream": "https://github.com/lucide-icons/lucide",
+  "icons": {
+    "panel-left": {
+      "module": "panel-left",
+      "sha256": "c1fa8d9394601097dde3016b28ab9ebd58647d1c930625ff9d4b6a39dcfc1f4b"
+    },
+    "add": {
+      "module": "plus",
+      "sha256": "0db825717aadf7ed587b074d8f94775e0b1de0bf38256fcfea84ae98b3b12cd7"
+    },
+    "search": {
+      "module": "search",
+      "sha256": "1ea6ce9dac3e32616f08ad14729353f683c4bbfa20bbc60597499e28427135c5"
+    },
+    "history": {
+      "module": "history",
+      "sha256": "ca040f70ef74ad7a25586271e80736259f524341cd3683a288257344fb8b9e3d"
+    },
+    "chevron-right": {
+      "module": "chevron-right",
+      "sha256": "dddfcc817c679f4baee16d114b0553dc96f4c70462f8aafbc69d47572b715dc0"
+    },
+    "chevron-down": {
+      "module": "chevron-down",
+      "sha256": "2ef129db33f210dd1dcae392ad34587bb259ff74f3a6d51cfb550ed0694e76e6"
+    },
+    "chevron-double-right": {
+      "module": "chevrons-right",
+      "sha256": "08c04f6698766ea59fa25a4455be8edcdac2905ce8c41b9536c883f55e453b70"
+    },
+    "mic": {
+      "module": "mic",
+      "sha256": "1dad1b8b261721118e401a5b969da830c88d72c6910c7edb683a2439d1954bb0"
+    },
+    "arrow-up": {
+      "module": "arrow-up",
+      "sha256": "773ee4dace2cce5f089304a451eccf252a188eac8f2755bf2b821ee5d1c9af73"
+    },
+    "folder": {
+      "module": "folder",
+      "sha256": "50a3f0e7e65639a4bb220fb95bfd59b49a9cc7c32c29813f5f325930ee81ccdb"
+    },
+    "chat-add": {
+      "module": "message-square-plus",
+      "sha256": "9704290adb43fa3db8ae5cd0aca8d622413523a921edd247aea3040a33925c62"
+    },
+    "arrow-left": {
+      "module": "arrow-left",
+      "sha256": "9590227bffda49b672ca067d12dd078c0ce1e7109e8e32357fe1822f440c3495"
+    },
+    "options": {
+      "module": "sliders-horizontal",
+      "sha256": "213dc61e1177f9da467ed5e4f2c13fd4e559ac1538a6c3176da394081f476356"
+    },
+    "person": {
+      "module": "user-round",
+      "sha256": "42ad665c304d60d6e8d46ae469dc692c0d558a97fe47b1e7e457e7b9141eafb9"
+    },
+    "developer-board": {
+      "module": "cpu",
+      "sha256": "b76daca90b7230473a698b3e1a92f45daf9fe95dd60ae34986ea404d01d39323"
+    },
+    "alert": {
+      "module": "bell",
+      "sha256": "68ee37a712457978a63e99a894ce8d0e702e3d9a1c49e94dab25ea72849be6a7"
+    },
+    "star": {
+      "module": "star",
+      "sha256": "85d902f72b840fa065f5f5d0306ca2c7fb175c69215da38a1e646e0ab3117bef"
+    },
+    "copy": {
+      "module": "copy",
+      "sha256": "7c40b14dd171b202868bededdf380f868bb5a2db5ca5a28d8fcf07d2d018ea7d"
+    },
+    "arrow-download": {
+      "module": "download",
+      "sha256": "1fbdc6b02c507d51e42fafabaa4e5d0aa30c19ea7c090c045d889b73815b691c"
+    },
+    "dismiss": {
+      "module": "x",
+      "sha256": "a7fca5573ae55404093b5cd41702096660d450e2af8988cad0be88cbace11561"
+    },
+    "panel-right": {
+      "module": "panel-right",
+      "sha256": "5ad2be8949a94784934f3ce2ca7d2c2461609bed54695173ae1d8266d0bd7a18"
+    },
+    "cursor": {
+      "module": "mouse-pointer-2",
+      "sha256": "ebf72e93522492cc7f26543338458467c8982e2fc49d39f1a48b4b0b1ac76ff6"
+    },
+    "chevron-up": {
+      "module": "chevron-up",
+      "sha256": "34f1c01b51636777f8c3ae2f48c6e539147fb6b96bbb6209999516708fffd6d3"
+    },
+    "pin": {
+      "module": "pin",
+      "sha256": "8b09d96b13a39c3589b4ce7c9f6d0782e0d5a48977299334dd66601729c308c3"
+    },
+    "more-horizontal": {
+      "module": "ellipsis",
+      "sha256": "378a314558551d339426a86c430e7e25087ad84bc511eba591c7335cde511c90"
+    },
+    "clock": {
+      "module": "clock",
+      "sha256": "78fe0c0634dcb625c45bdcf44dffb27ce229c3ac92230eec6a1d98d9befeb005"
+    },
+    "checkmark-circle": {
+      "module": "circle-check",
+      "sha256": "60e87129a22378400a2869bccdf4723eaa8a3ab43832f3630c0411dc7dc51dbe"
+    },
+    "chat": {
+      "module": "message-square",
+      "sha256": "35cae3e6c65b479271d7c3fadfab943f722b095c8db78d5c123a43ae7465f4c8"
+    },
+    "thumb-like": {
+      "module": "thumbs-up",
+      "sha256": "21e069b9e0e0ff73ef28ddd19e46f6266a358080b51b475a490f5bc3da189e96"
+    },
+    "thumb-dislike": {
+      "module": "thumbs-down",
+      "sha256": "52bc35a981562f2325e6ad72e94b5ef138b7b5eb71b1a88fafc7674c8e749068"
+    },
+    "share": {
+      "module": "share-2",
+      "sha256": "5b53b736e874e49912b3e7d2ab7925c748d2b99b4229d83f88a729fbfaed4822"
+    },
+    "flash": {
+      "module": "zap",
+      "sha256": "7293ea35fb1328dc3feb1c3929f316d7e31b81a3d5a79b83764ec98a96cb39e7"
+    },
+    "arrow-repeat-all": {
+      "module": "repeat-2",
+      "sha256": "ef86cc74c864f3e16667e14f8056d99cf98d7b0ec35253477cf9b49fc92a5dcf"
+    },
+    "checkmark": {
+      "module": "check",
+      "sha256": "a9da30260ff00d4a7ad31055c5e403408d8bcc167e87525e50dc39cf73cafc2b"
+    },
+    "settings": {
+      "module": "settings",
+      "sha256": "8c55020b8e84c3f027be0432f9c8e4ee068fa2c9505583e8264dcbe9d48ca20e"
+    },
+    "table": {
+      "module": "table",
+      "sha256": "99c264a466b3b9b05580d8feeb7d09cd98e24fb1f2fa48491e7d920079c2a93d"
+    },
+    "document": {
+      "module": "file-text",
+      "sha256": "c352c719dc081ab700066e5ebc737af611b3df8f79b37c06fa69f134141a479f"
+    },
+    "book-open": {
+      "module": "book-open",
+      "sha256": "4ea596cd44060d37ac45676efe25e52429e9266da86a2fddbdd94cc5855ac684"
+    },
+    "chart-multiple": {
+      "module": "chart-no-axes-combined",
+      "sha256": "d674ad67070683d810e3b7b103e6d79222d8bf571b1e90b097f3a8e7ccbb3829"
+    },
+    "code": {
+      "module": "code-xml",
+      "sha256": "40a60a55ea219cbe0c81730dca7bf04e0681e854570d06df1c31b42e7ce0d000"
+    },
+    "library": {
+      "module": "library",
+      "sha256": "b24c8bcea7c6b5634380b9cfc00f838b8a4642d545bf5c98bf3e9e0903a24af4"
+    },
+    "map": {
+      "module": "map",
+      "sha256": "e5c574633de5b1f6b5fb83c81a9f96b808c0cad1477ca8659228a9b09249a3de"
+    },
+    "desktop": {
+      "module": "monitor",
+      "sha256": "50b40a6f5f66c8b400fdc56002666f7352eacde35311952b27f5778a25cc50b0"
+    },
+    "target": {
+      "module": "target",
+      "sha256": "ba08f9799cd288483bfbf195b859e41d0ad6fe559e19e8b8014a1bb422196f5d"
+    },
+    "flag": {
+      "module": "flag",
+      "sha256": "89a536149057b51d3894dc5c8558469979cc343e1aa5206f6a7abb699f18d73a"
+    },
+    "trophy": {
+      "module": "trophy",
+      "sha256": "c047a7608340317126c9396508c0cef8248ca23a4ca70e35619033039ebad2e7"
+    },
+    "beaker": {
+      "module": "beaker",
+      "sha256": "49a98719e4a8b7f5657c08f929b965d359c2750678c09ace993c36d7098c11b2"
+    },
+    "compass-northwest": {
+      "module": "compass",
+      "sha256": "cb91715239e3bcd833d45ee52537efa0f447a3ccbdfa6f0bd3cbfa1a1b6a961b"
+    },
+    "document-edit": {
+      "module": "file-pen-line",
+      "sha256": "eb9d8d62604d4da0eca06ffede97e6ee2b38ed63d9c0916c7e32d462ae499ebd"
+    },
+    "info": {
+      "module": "info",
+      "sha256": "2b898d68b5eba7409122ff825263067301eead98468e2e841089b041f6fdf3b8"
+    },
+    "warning": {
+      "module": "triangle-alert",
+      "sha256": "b192770c9d48e7fd3609c411daf3da07f08dc1e60a6b90f2f584710b8c758a64"
+    },
+    "arrow-right": {
+      "module": "arrow-right",
+      "sha256": "f31c3df574eccf606c8c5a2e53960098fcf39321228459eb2c536b1c96f0d5ae"
+    },
+    "text-bullet-list": {
+      "module": "list",
+      "sha256": "b5974e83c75c2778fb33c430272c6d698235f22b0876add092e08a11ab5f97f4"
+    },
+    "archive": {
+      "module": "archive",
+      "sha256": "6a4755398bca419f23f1b50fe8068631e3875809c49347dc9cb97164272690b1"
+    },
+    "branch": {
+      "module": "git-branch",
+      "sha256": "07d626f0ca4c128c4cbbea8e32a5c4ebcfc440c3373a98909ea549bf4e4f52da"
+    },
+    "location": {
+      "module": "map-pin",
+      "sha256": "970613f80ebb591593e6543ca741c1c264ebf37ddeee2a722ad6651818cccd41"
+    },
+    "lightbulb": {
+      "module": "lightbulb",
+      "sha256": "57d26cabe0fa7e369c75e41c03fa1380a5fc68f86622bf85aaa67e465277aa43"
+    },
+    "video-clip": {
+      "module": "video",
+      "sha256": "d2503466a78ecf2ea4e0575ab3da2060811e1876418072e3235ca0857f436465"
+    },
+    "scales": {
+      "module": "scale",
+      "sha256": "12cf4c7b252a9126a08d5454617cbbda3c8c6f8efe7a21a55653279f871837be"
+    },
+    "building-bank": {
+      "module": "landmark",
+      "sha256": "ba382b33a0f3b6e8938b664b13757ca998ee24fb01b9b4dd797f8eca02c43090"
+    },
+    "globe": {
+      "module": "globe",
+      "sha256": "f464d59173aaa266e8710057bb0219e610c09f67b60fb87cd2f30b21521a5159"
+    },
+    "news": {
+      "module": "newspaper",
+      "sha256": "7615058472499465568a089b1df588a1d24628a419faabad2659ff17c6c8548c"
+    },
+    "circle": {
+      "module": "circle",
+      "sha256": "624e7bb435bc887aa65b6a8a2f13c354ea71add6b83800ff52e545ee84c9c5fb"
+    },
+    "flowchart": {
+      "module": "workflow",
+      "sha256": "51546c1a853f151188c933ab07dd9f5442261c2db40f0465a14b447da60fd6dd"
+    },
+    "shield-checkmark": {
+      "module": "shield-check",
+      "sha256": "1f9436258e645db2e0aebe9417f8896ce837b81e8ed83854a061de637df1cbfb"
+    },
+    "window-console": {
+      "module": "square-terminal",
+      "sha256": "c7dfad5b1031b051cd86955cc22f263f391b5014ffbe1792cdcace1e40faffec"
+    },
+    "arrow-enter-left": {
+      "module": "corner-down-left",
+      "sha256": "548c38ee53e6203da79c44fac87b235fb0207813a8d3d22dc853f1e2d52c9f9b"
+    },
+    "chevron-double-down": {
+      "module": "chevrons-down",
+      "sha256": "b9e8774ed5e4abdde78eaaed461c3f4b9448fb401b9c86f0a9ce627f599b81a8"
+    },
+    "edit": {
+      "module": "pencil",
+      "sha256": "d6d2b212a73e090852a27ebc38fc555e5da61ba3f44a2e2466f98e1d1334febb"
+    }
+  }
+}
