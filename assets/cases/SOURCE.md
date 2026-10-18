@@ -1,0 +1,1 @@
+Covers reuse three unmodified-color, text-free crops from the user-provided Levitate reference, preserved in the earlier levitate-gradient-2026-09-20 project. Source: assets/reference.png (1920 × 1080). Crop rectangles: (0,0,672,420), (624,0,1296,420), (1248,0,1920,420).
