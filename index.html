@@ -380,6 +380,8 @@ html:root body button.grid svg { stroke-width: 1.75; }
 
 /* Navigation sits on the base; every workspace view shares a raised content surface. */
 #workspacePage { height: 100vh; height: 100dvh; background: var(--workspace-background); }
+/* Paint the surface after the positioned sidebar so its left outline stays visible. */
+#workspaceMain { position: relative; }
 .workspace-surface {
   min-width: 0;
   min-height: 0;
@@ -389,8 +391,7 @@ html:root body button.grid svg { stroke-width: 1.75; }
   box-shadow: var(--workspace-surface-shadow);
   overflow: hidden;
 }
-html:root body :is(#sidebar, #railbar) { background-color: var(--sidebar) !important; border: 0; color: var(--sidebar-foreground); }
-html:root body #sidebar > div:first-child > div > span:first-child { border-radius: var(--radius-md); }
+html:root body #sidebar { background-color: var(--sidebar) !important; border: 0; color: var(--sidebar-foreground); }
 html:root body #sidebar > .mt-3 > button { height: 36px; padding-top: 8px; padding-bottom: 8px; border-radius: var(--radius-md); }
 html:root body #sidebar .navItem { min-height: 36px; border-radius: var(--radius-md); }
 html:root body #recentHeader { font-size: 12px; font-weight: 500; }
@@ -608,10 +609,10 @@ html:root body :is(#screen-home, #messages, #arLog, #guiScroll, .settings-panel)
 html:root body .naive-lockup {
   position: relative;
   display: inline-block;
-  width: 99.2px;
-  min-width: 99.2px;
-  height: 22.4px;
-  flex: 0 0 99.2px;
+  width: 85.16px;
+  min-width: 85.16px;
+  height: 19.2px;
+  flex: 0 0 85.16px;
   overflow: visible;
   color: var(--foreground);
   background: currentColor;
@@ -721,30 +722,81 @@ html:root body button.naive-rail.bg-zinc-900:hover { background: var(--accent) !
   .settings-gpu-grid { column-gap: 14px; padding: 12px; }
 }
 
-/* Kimi-inspired sidebar spacing and surfaces; existing content and actions stay intact. */
-html:root body #sidebar { width: 240px; }
-html:root body #sidebar > div:first-child { height: 62px; padding: 0 16px; }
-html:root body #sidebar > div:first-child > button { display: grid; place-items: center; width: 24px; height: 28px; border-radius: 6px; }
-html:root body #sidebar > div:first-child > button:hover { background: var(--sidebar-accent); }
-html:root body #sidebar > .mt-3 { margin-top: 0; padding: 0 8px; }
-html:root body #sidebar > div.mt-3 > button {
+/* One sidebar keeps shared controls mounted while its width and layout interpolate. */
+html:root body #sidebar {
+  --sidebar-motion: 320ms cubic-bezier(.22, 1, .36, 1);
+  position: relative; width: 240px; overflow: hidden;
+  transition: width var(--sidebar-motion);
+}
+html:root body #sidebar .sidebar-header { position: relative; height: 62px; flex-shrink: 0; transition: height var(--sidebar-motion); }
+html:root body #sidebar .naive-lockup {
+  position: absolute; left: 16px; top: 21.4px; background: none; mask: none; -webkit-mask: none;
+  transition: transform var(--sidebar-motion);
+}
+/* Split the official lockup at its original coordinates so the door can travel independently. */
+html:root body #sidebar .naive-lockup__symbol {
+  display: block; position: absolute; left: 2.48px; top: 1.86px; width: 15.13px; height: 16.04px;
+  background: currentColor;
+  mask: url('./assets/brand/naive-symbol.svg') center / contain no-repeat;
+  -webkit-mask: url('./assets/brand/naive-symbol.svg') center / contain no-repeat;
+  transition: width var(--sidebar-motion), height var(--sidebar-motion), opacity 140ms ease;
+}
+html:root body #sidebar .naive-lockup__wordmark {
+  display: block; position: absolute; inset: 0; background: currentColor; clip-path: inset(0 0 0 22px);
+  mask: url('./assets/brand/naive-lockup.svg') center / contain no-repeat;
+  -webkit-mask: url('./assets/brand/naive-lockup.svg') center / contain no-repeat;
+}
+html:root body #sidebar .sidebar-collapse { position: absolute; right: 16px; top: 17px; display: grid; place-items: center; width: 24px; height: 28px; border-radius: 6px; }
+html:root body #sidebar .sidebar-collapse:hover { background: var(--sidebar-accent); }
+html:root body #sidebar .sidebar-expand { position: absolute; left: 10px; top: 12px; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 8px; color: var(--foreground); }
+html:root body #sidebar .sidebar-expand svg { opacity: 0; transition: opacity 140ms ease; }
+html:root body #sidebar[data-collapsed="true"] .sidebar-header:has(.sidebar-expand:is(:hover, :focus-visible)) .naive-lockup__symbol { opacity: 0; }
+html:root body #sidebar .sidebar-expand:is(:hover, :focus-visible) svg { opacity: 1; }
+html:root body #sidebar .sidebar-new, html:root body #sidebar .sidebar-nav { padding: 0 8px; flex-shrink: 0; transition: padding var(--sidebar-motion), margin-top var(--sidebar-motion); }
+html:root body #sidebar .sidebar-new > button {
+  position: relative; width: 100%; display: flex; align-items: center; overflow: hidden;
   height: 41px; padding: 0 8px; gap: 8px; border: 0.5px solid var(--sidebar-border);
   border-radius: 12px; box-shadow: none; font-size: 14px; font-weight: 400; color: var(--foreground);
+  transition: height var(--sidebar-motion), padding var(--sidebar-motion), border-color var(--sidebar-motion), background-color var(--sidebar-motion), color var(--sidebar-motion);
 }
-html:root body #sidebar > nav.mt-3 { margin-top: 8px; }
-html:root body #sidebar .navItem { height: 36px; padding: 0 8px; gap: 8px; font-weight: 400; color: var(--foreground); border-radius: 8px; }
-html:root body #sidebar > .border-t { border: 0; margin: 12px 0; }
-html:root body #sidebar > .overflow-y-auto { padding: 0 8px; }
+html:root body #sidebar .sidebar-nav { margin-top: 8px; }
+html:root body #sidebar .navItem { height: 36px; padding: 0 8px; gap: 8px; font-weight: 400; color: var(--foreground); border-radius: 8px; overflow: hidden; transition: padding var(--sidebar-motion), color var(--sidebar-motion), background-color 150ms ease; }
+html:root body #sidebar :is(.sidebar-new, .sidebar-nav) svg { flex-shrink: 0; width: 16px; height: 16px; transition: width var(--sidebar-motion), height var(--sidebar-motion); }
+html:root body #sidebar .sidebar-divider { height: 24px; flex-shrink: 0; transition: height var(--sidebar-motion); }
+html:root body #sidebar .sidebar-recents { width: 240px; min-height: 0; padding: 0 8px; }
 html:root body #sidebar #recentHeader { padding: 0 8px; margin-bottom: 12px; gap: 8px; font-size: 14px; font-weight: 400; color: var(--muted-foreground); }
 html:root body #sidebar #recentHeader > svg { display: none; }
-html:root body #sidebar [data-group] > [data-i18n] { padding: 0 8px; margin-top: 12px; margin-bottom: 6px; font-size: 12px; color: var(--muted-foreground); }
 html:root body #sidebar .recentItem { border-radius: 8px; }
 html:root body #sidebar .recentItem [data-rdot]:has(> span) { order: 2; margin-left: auto; }
 html:root body #sidebar .recentItem > [data-open] { min-height: 36px; padding: 8px; gap: 8px; }
 html:root body #sidebar [data-title] { font-size: 14px; font-weight: 400; color: var(--foreground); }
-html:root body #sidebar .settings-footer { padding: 8px; }
-html:root body #sidebar .settings-entry { height: 44px; padding: 0 8px; gap: 8px; border-radius: 8px; color: var(--foreground); font-size: 14px; }
+html:root body #sidebar .settings-footer { padding: 8px; transition: padding var(--sidebar-motion); }
+html:root body #sidebar .settings-entry { position: relative; height: 44px; padding: 0 8px; gap: 8px; border-radius: 8px; color: var(--foreground); font-size: 14px; overflow: hidden; transition: height var(--sidebar-motion), padding var(--sidebar-motion), background-color 150ms ease; }
 html:root body #sidebar .settings-entry .user-avatar { width: 28px; height: 28px; }
+html:root body #sidebar .settings-credits { position: absolute; right: 8px; }
+html:root body #sidebar .sidebar-label { white-space: nowrap; flex-shrink: 0; }
+html:root body #sidebar .sidebar-expanded-only { opacity: 1; visibility: visible; transform: translateX(0); transition: opacity 180ms ease 80ms, transform var(--sidebar-motion), visibility 0s; }
+html:root body #sidebar .sidebar-rail-only { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 120ms ease, visibility 0s 120ms; }
+html:root body #sidebar .sidebar-history { position: absolute; left: 10px; top: 140px; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 8px; color: var(--muted-foreground); transform: translateY(8px); transition: opacity 120ms ease, transform var(--sidebar-motion), visibility 0s 120ms; }
+html:root body #sidebar .sidebar-history:hover { background: var(--sidebar-accent); color: var(--foreground); }
+html:root body #sidebar[data-collapsed="true"] { width: 56px; }
+html:root body #sidebar[data-collapsed="true"] .sidebar-header { height: 60px; }
+html:root body #sidebar[data-collapsed="true"] .naive-lockup { transform: translate(1.12px, -2.36px); }
+html:root body #sidebar[data-collapsed="true"] .naive-lockup__symbol { width: 16.8px; height: 18.2px; }
+html:root body #sidebar[data-collapsed="true"] :is(.sidebar-new, .sidebar-nav) { padding-inline: 10px; }
+html:root body #sidebar[data-collapsed="true"] .sidebar-new > button { height: 36px; padding-inline: 8.5px; border-color: transparent !important; background: transparent !important; color: var(--muted-foreground); }
+html:root body #sidebar[data-collapsed="true"] .sidebar-new > button:hover { background: var(--sidebar-accent) !important; color: var(--foreground); }
+html:root body #sidebar[data-collapsed="true"] .sidebar-nav { margin-top: 4px; }
+html:root body #sidebar[data-collapsed="true"] .navItem { padding-inline: 9px; color: var(--muted-foreground); }
+html:root body #sidebar[data-collapsed="true"] :is(.sidebar-new, .sidebar-nav) svg { width: 18px; height: 18px; }
+html:root body #sidebar[data-collapsed="true"] .sidebar-divider { height: 4px; }
+html:root body #sidebar[data-collapsed="true"] .settings-footer { padding: 12px 10px; }
+html:root body #sidebar[data-collapsed="true"] .settings-entry { height: 36px; padding-inline: 4px; }
+html:root body #sidebar[data-collapsed="true"] .sidebar-expanded-only { opacity: 0; visibility: hidden; pointer-events: none; transform: translateX(-8px); transition: opacity 120ms ease, transform var(--sidebar-motion), visibility 0s 120ms; }
+html:root body #sidebar[data-collapsed="true"] .sidebar-rail-only { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0); transition-delay: 100ms, 0s, 0s; }
+@media (prefers-reduced-motion: reduce) {
+  html:root body #sidebar, html:root body #sidebar * { transition-duration: 0s !important; transition-delay: 0s !important; }
+}
 
 /* Continuous corners across static UI and dynamically rendered components.
    Unsupported browsers retain their existing border-radius fallback. */
@@ -765,35 +817,37 @@ html:root body #sidebar .settings-entry .user-avatar { width: 28px; height: 28px
 <div id="workspacePage" class="flex h-screen overflow-hidden">
 
   <!-- ===================== SIDEBAR ===================== -->
-  <aside id="sidebar" class="w-[264px] shrink-0 h-full flex flex-col">
+  <aside id="sidebar" data-collapsed="false" class="shrink-0 h-full flex flex-col">
     <!-- logo -->
-    <div class="px-4 h-14 shrink-0 flex items-center justify-between">
+    <div class="sidebar-header">
       <div class="naive-lockup" role="img" aria-label="naive ai">
         <span class="naive-lockup__symbol" aria-hidden="true"></span>
-        <span class="naive-lockup__wordmark" aria-hidden="true"></span>
+        <span class="naive-lockup__wordmark sidebar-expanded-only" aria-hidden="true"></span>
       </div>
-      <button onclick="toggleSidebar()" class="text-zinc-400 hover:text-zinc-700" title="收起侧边栏"><svg class="app-icon w-4 h-4" data-icon="panel-left" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="./assets/icons/lucide-sprite.svg#panel-left"></use></svg></button>
+      <button id="sidebarCollapse" onclick="toggleSidebar()" class="sidebar-collapse sidebar-expanded-only text-zinc-400 hover:text-zinc-700" aria-controls="sidebarRecents" aria-expanded="true" aria-label="收起侧边栏" title="收起侧边栏"><svg class="app-icon w-4 h-4" data-icon="panel-left" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="./assets/icons/lucide-sprite.svg#panel-left"></use></svg></button>
+      <button id="sidebarExpand" onclick="toggleSidebar()" class="sidebar-expand sidebar-rail-only" aria-controls="sidebarRecents" aria-expanded="true" aria-label="展开侧边栏" title="展开侧边栏" inert aria-hidden="true"><svg class="app-icon w-[18px] h-[18px]" data-icon="panel-left" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="./assets/icons/lucide-sprite.svg#panel-left"></use></svg></button>
     </div>
 
     <!-- new -->
-    <div class="px-3 mt-3">
-      <button onclick="goHome()" class="w-full flex items-center gap-2.5 border border-zinc-200 bg-white rounded-xl px-3 py-2.5 text-sm font-medium hover:bg-zinc-50 transition">
-        <svg class="app-icon w-4 h-4" data-icon="add" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="./assets/icons/lucide-sprite.svg#add"></use></svg> <span data-i18n="new">新建</span>
+    <div class="sidebar-new">
+      <button id="sidebarNew" onclick="goHome()" data-i18n-title="new" title="新建" aria-label="新建" class="w-full flex items-center gap-2.5 border border-zinc-200 bg-white rounded-xl px-3 py-2.5 text-sm font-medium hover:bg-zinc-50 transition">
+        <svg class="app-icon w-4 h-4" data-icon="add" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="./assets/icons/lucide-sprite.svg#add"></use></svg> <span class="sidebar-label sidebar-expanded-only" data-i18n="new">新建</span>
       </button>
     </div>
 
     <!-- nav -->
-    <nav class="px-3 mt-3 space-y-0.5 text-sm text-zinc-600">
-      <button onclick="openSearch()" class="navItem w-full flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-zinc-200/40 transition">
-        <svg class="app-icon w-4 h-4" data-icon="search" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="./assets/icons/lucide-sprite.svg#search"></use></svg> <span data-i18n="history">搜索</span>
+    <nav class="sidebar-nav text-sm text-zinc-600">
+      <button id="sidebarSearch" onclick="openSearch()" data-i18n-title="history" title="搜索" aria-label="搜索" class="navItem w-full flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-zinc-200/40 transition">
+        <svg class="app-icon w-4 h-4" data-icon="search" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="./assets/icons/lucide-sprite.svg#search"></use></svg> <span class="sidebar-label sidebar-expanded-only" data-i18n="history">搜索</span>
       </button>
     </nav>
 
     <!-- divider: 功能区（上） / 最近任务（下） -->
-    <div class="mx-3 my-3 border-t border-zinc-200/70"></div>
+    <div class="sidebar-divider" aria-hidden="true"></div>
+    <button id="sidebarHistory" onclick="toggleSidebar()" class="sidebar-history sidebar-rail-only" data-i18n-title="recent" title="最近任务" aria-label="最近任务" aria-controls="sidebarRecents" aria-expanded="true" inert aria-hidden="true"><svg class="app-icon w-[18px] h-[18px]" data-icon="history" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="./assets/icons/lucide-sprite.svg#history"></use></svg></button>
 
     <!-- recent -->
-    <div class="px-3 flex-1 overflow-y-auto scroll-thin">
+    <div id="sidebarRecents" class="sidebar-recents sidebar-expanded-only flex-1 overflow-y-auto scroll-thin">
       <div id="recentHeader" class="px-3 flex items-center gap-2.5 text-sm font-medium text-zinc-500 mb-1.5">
         <svg class="app-icon w-4 h-4" data-icon="history" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="./assets/icons/lucide-sprite.svg#history"></use></svg>
         <span data-i18n="recent">最近任务</span>
@@ -802,29 +856,12 @@ html:root body #sidebar .settings-entry .user-avatar { width: 28px; height: 28px
     </div>
 
     <div class="settings-footer">
-      <button id="settingsEntry" class="settings-entry" onclick="openSettings()" aria-controls="settingsPage">
+      <button id="settingsEntry" class="settings-entry" onclick="openSettings()" aria-controls="settingsPage" aria-label="Jesse Lai" title="设置">
         <img class="user-avatar" src="./assets/avatars/user-avatar.png" width="28" height="28" alt="" aria-hidden="true">
-        <span data-settings-text="settings">设置</span>
-        <span class="settings-credits"><svg class="app-icon naive-credit" data-icon="star" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="./assets/icons/lucide-sprite.svg#star"></use></svg>396</span>
+        <span class="sidebar-label sidebar-expanded-only">Jesse Lai</span>
+        <span class="settings-credits sidebar-expanded-only"><svg class="app-icon naive-credit" data-icon="star" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="./assets/icons/lucide-sprite.svg#star"></use></svg>396</span>
       </button>
     </div>
-  </aside>
-
-  <!-- ===================== COLLAPSED RAIL ===================== -->
-  <aside id="railbar" class="hidden w-14 shrink-0 h-full flex flex-col items-center py-3">
-    <button onclick="toggleSidebar()" aria-label="展开侧边栏" class="naive-rail group relative grid place-items-center w-9 h-9 rounded-lg bg-zinc-900 text-white mb-3">
-      <span class="naive-symbol group-hover:hidden text-base leading-none" role="img" aria-label="naive ai"></span>
-      <span class="hidden group-hover:grid place-items-center"><svg class="app-icon w-[18px] h-[18px]" data-icon="panel-left" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="./assets/icons/lucide-sprite.svg#panel-left"></use></svg></span>
-    </button>
-    <div class="flex flex-col items-center gap-1">
-      <button onclick="goHome()" title="新建" class="w-9 h-9 grid place-items-center rounded-lg text-zinc-600 hover:bg-zinc-200/50 hover:text-zinc-900 transition"><svg class="app-icon w-[18px] h-[18px]" data-icon="add" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="./assets/icons/lucide-sprite.svg#add"></use></svg></button>
-      <button onclick="openSearch()" title="搜索" class="w-9 h-9 grid place-items-center rounded-lg text-zinc-500 hover:bg-zinc-200/50 hover:text-zinc-900 transition"><svg class="app-icon w-[18px] h-[18px]" data-icon="search" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="./assets/icons/lucide-sprite.svg#search"></use></svg></button>
-      <button onclick="toggleSidebar()" data-i18n-title="recent" title="最近任务" class="w-9 h-9 grid place-items-center rounded-lg text-zinc-500 hover:bg-zinc-200/50 hover:text-zinc-900 transition"><svg class="app-icon w-[18px] h-[18px]" data-icon="history" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="./assets/icons/lucide-sprite.svg#history"></use></svg></button>
-    </div>
-    <div class="flex-1"></div>
-    <button id="settingsRailEntry" class="settings-entry settings-entry-rail" onclick="openSettings()" aria-controls="settingsPage" aria-label="设置" title="设置" data-settings-label="settings">
-      <img class="user-avatar" src="./assets/avatars/user-avatar.png" width="28" height="28" alt="" aria-hidden="true">
-    </button>
   </aside>
 
   <!-- ===================== MAIN ===================== -->
@@ -1194,7 +1231,7 @@ const T = {
     roundEffect:'本轮效果', roundLesson:'可吸收经验', forNext:'将带入下一轮，让研究更准', researchTag:'研究',
     recentRunning:'进行中', recentDone:'已完成',
     menuPin:'置顶', menuUnpin:'取消置顶', menuRename:'重命名', menuDelete:'删除', menuMore:'更多',
-    grp_today:'今天', grp_yesterday:'昨天', grp_week:'一周内', grp_earlier:'更早', expandSidebar:'展开侧边栏',
+    grp_today:'今天', grp_yesterday:'昨天', grp_week:'一周内', grp_earlier:'更早', expandSidebar:'展开侧边栏', collapseSidebar:'收起侧边栏',
     iterLabel:n=>`第 ${n} 轮`,
     pausedAt:n=>`已暂停（完成 ${n} 轮）`,
     stoppedAt:(i,f)=>`已停止 · 共 ${i} 轮 / ${f} 项发现`,
@@ -1236,7 +1273,7 @@ const T = {
     roundEffect:'Round result', roundLesson:'Lessons to absorb', forNext:'Carried into the next round to sharpen research', researchTag:'Research',
     recentRunning:'Running', recentDone:'Done',
     menuPin:'Pin', menuUnpin:'Unpin', menuRename:'Rename', menuDelete:'Delete', menuMore:'More',
-    grp_today:'Today', grp_yesterday:'Yesterday', grp_week:'This week', grp_earlier:'Earlier', expandSidebar:'Expand sidebar',
+    grp_today:'Today', grp_yesterday:'Yesterday', grp_week:'This week', grp_earlier:'Earlier', expandSidebar:'Expand sidebar', collapseSidebar:'Collapse sidebar',
     iterLabel:n=>`Round ${n}`,
     pausedAt:n=>`Paused (after ${n} rounds)`,
     stoppedAt:(i,f)=>`Stopped · ${i} rounds / ${f} findings`,
@@ -1255,6 +1292,7 @@ function setLang(l){
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.placeholder = t(el.dataset.i18nPh); });
   document.querySelectorAll('[data-i18n-title]').forEach(el=>{ el.title = t(el.dataset.i18nTitle); });
   syncSettingsLanguage();
+  syncSidebarLanguage();
   refreshRecentLanguage();
   // dynamic re-render
   setMode(mode);
@@ -1289,6 +1327,7 @@ const settingsText = key => SETTINGS_COPY[lang][key];
 let settingsSection = 'general';
 let settingsOpener = null;
 function syncSettingsLanguage(){
+  $('settingsEntry').title=settingsText('settings');
   document.querySelectorAll('[data-settings-text]').forEach(el => { el.textContent=settingsText(el.dataset.settingsText); });
   document.querySelectorAll('[data-settings-label]').forEach(el => {
     const label=settingsText(el.dataset.settingsLabel);
@@ -1322,7 +1361,7 @@ function closeSettings(){
   $('settingsPage').hidden=true;
   $('workspacePage').hidden=false;
   const target=settingsOpener?.isConnected && settingsOpener!==document.body
-    ? settingsOpener : $(sidebarOpen?'settingsEntry':'settingsRailEntry');
+    ? settingsOpener : $('settingsEntry');
   target.focus({preventScroll:true});
 }
 const settingsTabs=$('settingsPage').querySelector('[role="tablist"]');
@@ -1348,10 +1387,29 @@ settingsTabs.addEventListener('keydown', event => {
 
 /* ---------- sidebar collapse ---------- */
 let sidebarOpen=true;
+function syncSidebarLanguage(){
+  const labels={sidebarCollapse:'collapseSidebar', sidebarExpand:'expandSidebar', sidebarNew:'new', sidebarSearch:'history', sidebarHistory:'recent'};
+  Object.entries(labels).forEach(([id,key])=>{
+    $(id).setAttribute('aria-label', t(key));
+    $(id).title=t(key);
+  });
+}
 function toggleSidebar(){
+  const sidebar=$('sidebar');
+  const active=document.activeElement;
   sidebarOpen=!sidebarOpen;
-  $('sidebar').classList.toggle('hidden', !sidebarOpen);
-  $('railbar').classList.toggle('hidden', sidebarOpen);
+  sidebar.dataset.collapsed=String(!sidebarOpen);
+  // Disable disappearing controls immediately; CSS keeps them painted for the fade.
+  sidebar.querySelectorAll('.sidebar-expanded-only, .sidebar-rail-only').forEach(el=>{
+    const unavailable=el.classList.contains('sidebar-expanded-only') ? !sidebarOpen : sidebarOpen;
+    el.inert=unavailable;
+    el.setAttribute('aria-hidden', String(unavailable));
+  });
+  ['sidebarCollapse','sidebarExpand','sidebarHistory'].forEach(id=>$(id).setAttribute('aria-expanded', String(sidebarOpen)));
+  // Keyboard focus follows the surviving toggle, without resetting shared controls.
+  if(sidebar.contains(active) && active.closest('[inert]')){
+    $(sidebarOpen?'sidebarCollapse':'sidebarExpand').focus({preventScroll:true});
+  }
 }
 
 /* ---------- screens ---------- */
@@ -3655,7 +3713,7 @@ function ensureGroup(key){
   let sec=recentBox.querySelector(`[data-group="${key}"]`);
   if(sec) return sec.querySelector('[data-items]');
   sec=document.createElement('div'); sec.setAttribute('data-group',key);
-  sec.innerHTML=`<div data-i18n="grp_${key}" class="px-3 text-[11px] text-zinc-400 mb-1 mt-3 first:mt-0">${t('grp_'+key)}</div><div data-items class="space-y-0.5"></div>`;
+  sec.innerHTML='<div data-items class="space-y-0.5"></div>';
   const idx=GROUP_ORDER.indexOf(key); let inserted=false;
   for(const other of recentBox.querySelectorAll('[data-group]')){
     if(GROUP_ORDER.indexOf(other.getAttribute('data-group'))>idx){ recentBox.insertBefore(sec, other); inserted=true; break; }
