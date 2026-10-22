@@ -1,0 +1,1 @@
+globalThis.curateReferences = catalogue => catalogue;

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark">
+<title>OTHER INTELLIGENCE — Agent 视觉参考档案</title>
+<meta name="description" content="根据你的点赞整理 Agent 视觉参考：保留已选作品，继续发现相近的 UI 动效、产品界面和图形设计。">
+<link rel="stylesheet" href="style.css?v=public01"><script defer src="data.js?v=public01"></script><script defer src="feedback.js?v=public01"></script><script defer src="curation.js?v=public01"></script><script defer src="carousel.js?v=public01"></script><script defer src="app.js?v=public01"></script>
+</head>
+<body>
+<header class="topbar"><a class="brand" href="#"><span class="brand-mark" aria-hidden="true">✳</span><span>OTHER<br>INTELLIGENCE</span></a><span class="mast-note">视觉参考档案 <i>/</i> VOL. 04 / YOUR TASTE</span><button class="collection-button" id="collectionTop" aria-pressed="false">我的收藏 <span class="saved-count">0</span> <span aria-hidden="true">↗</span></button><span id="feedbackSync" role="status" aria-live="polite" title="点赞同步状态"></span></header>
+<main>
+<section class="hero" aria-labelledby="hero-title">
+<h1 id="hero-title">看见下一种<span class="serif">智能</span>。</h1>
+<a href="#archive" class="primary-link"><span>浏览 <b data-total-count>0</b> 组参考</span><span aria-hidden="true">↓</span></a>
+</section>
+<section class="archive" id="archive" aria-label="视觉参考作品集">
+<div class="filterbar"><nav class="filters" aria-label="按设计类型筛选"><button data-filter="all" aria-pressed="true">全部 <sup>14</sup></button><button data-filter="motion" aria-pressed="false">UI 与动效 <sup>04</sup></button><button data-filter="product" aria-pressed="false">产品界面 <sup>03</sup></button><button data-filter="graphic" aria-pressed="false">平面与品牌 <sup>07</sup></button></nav><button class="motion-toggle" id="motionToggle" aria-pressed="false">▷ 只看动态</button><label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" aria-label="搜索作品、作者或视觉关键词" placeholder="作品、作者、关键词" autocomplete="off"></label></div>
+<div id="gallery" class="gallery"></div><div id="empty" class="empty" hidden><span>还没有找到对应的作品。</span><p>换个关键词，或回到全部参考继续探索。</p><button class="primary-link" id="reset">查看全部参考 ↗</button></div>
+</section>
+</main>
+<footer><div class="footer-brand">OTHER INTELLIGENCE<span>一种存在，无限种形状。</span></div><div><p>为 Agent 主视觉整理 · 2026.10.22</p><p>点赞匿名保存，用于汇总设计偏好。作品归原作者所有。预览用于设计研究，原作及完整署名见各作品链接。<br>设计转译为本页策展建议。</p></div><a href="#" aria-label="回到顶部">↑</a></footer>
+<dialog id="detail" aria-labelledby="detailTitle"><div class="dialog-header"><span id="detailIndex"></span><div><button id="prevWork" aria-label="上一件作品">←</button><button id="nextWork" aria-label="下一件作品">→</button><button id="closeDetail" aria-label="关闭详情">✕</button></div></div><div class="detail-layout"><div class="detail-visual"><div class="media-stage" id="mediaStage"></div><div class="media-controls" id="mediaControls"></div><p id="mediaNote" class="media-note"></p></div><div class="detail-copy"><p class="eyebrow" id="detailCategory"></p><h2 id="detailTitle"></h2><p id="detailStudio" class="detail-studio"></p><h3 id="detailLine"></h3><p id="detailDescription" class="detail-description"></p><div class="detail-tags" id="detailTags"></div><div class="translation"><p class="eyebrow">转译到 AGENT</p><h4>值得借鉴</h4><p id="detailBorrow"></p><h4>动效转译建议</h4><p id="detailMotion"></p><p class="fit" id="detailFit"></p></div><div class="detail-actions"><a id="detailSource" target="_blank" rel="noopener noreferrer" class="source-link">访问原作 <span>↗</span></a><button id="detailSave" aria-pressed="false">♡ 收藏</button></div><p id="detailCredit" class="credit"></p></div></div></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body></html>
