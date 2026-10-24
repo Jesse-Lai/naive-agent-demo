@@ -10,7 +10,7 @@ let received=new Map();
 let saved=new Set();try{const x=JSON.parse(localStorage.getItem('other-intelligence-saved')||'[]');if(Array.isArray(x))saved=new Set(x.filter(id=>typeof id==='string'));}catch{}
 let filter='all',favorites=false,motionOnly=false,query='',active=null,visible=refs,navIds=[],toastTimer,feedbackStore;
 function toast(t){$('#toast').textContent=t;$('#toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('show'),2800);}
-function syncSaved(){syncReceived();$('#collectionTop').setAttribute('aria-pressed',favorites);document.querySelectorAll('.saved-count').forEach(el=>el.textContent=received.size);document.querySelectorAll('[data-save]').forEach(el=>{const yes=saved.has(el.dataset.save);el.setAttribute('aria-pressed',yes);el.textContent=yes?'♥':'♡';el.setAttribute('aria-label',(yes?'取消收藏 ':'收藏 ')+refs.find(r=>r.id===el.dataset.save).title);});if(active){const yes=saved.has(active.id);$('#detailSave').setAttribute('aria-pressed',yes);$('#detailSave').textContent=yes?'♥ 已收藏':'♡ 收藏';}}
+function syncSaved(){syncReceived();$('#collectionTop').setAttribute('aria-pressed',filter==='received');document.querySelectorAll('.saved-count').forEach(el=>el.textContent=received.size);document.querySelectorAll('[data-save]').forEach(el=>{const yes=saved.has(el.dataset.save);el.setAttribute('aria-pressed',yes);el.textContent=yes?'♥':'♡';el.setAttribute('aria-label',(yes?'取消收藏 ':'收藏 ')+refs.find(r=>r.id===el.dataset.save).title);});if(active){const yes=saved.has(active.id);$('#detailSave').setAttribute('aria-pressed',yes);$('#detailSave').textContent=yes?'♥ 已收藏':'♡ 收藏';}}
 function toggleSave(id){feedbackStore.set(id,!saved.has(id));}
 function reasonFor(r){if(r.submitted)return (saved.has(r.id)?'♥ 你的选择 · ':'收集的参考 · ')+(r.platform||'X');if(saved.has(r.id))return '♥ 已收藏';const matches=catalogue.filter(x=>saved.has(x.id)&&((r.similarTo||[]).includes(x.id)||(x.similarTo||[]).some(id=>(r.similarTo||[]).includes(id))));return matches.length?'因为你喜欢 '+matches[0].title:'新增参考 · 待你选择';}
 function updateCollection(){
@@ -90,14 +90,14 @@ function playInline(id,clipIndex=0){
 function render(){
 stopPreviews();
 updateCollection();
-document.querySelectorAll('[data-filter]').forEach(b=>{b.setAttribute('aria-pressed',b.dataset.filter===filter);b.querySelector('sup').textContent=String(refs.filter(r=>(b.dataset.filter==='all'||r.category===b.dataset.filter)&&(!motionOnly||hasMotion(r))).length).padStart(2,'0');});
-visible=refs.filter(r=>(filter==='all'||r.category===filter)&&(!favorites||received.has(r.id))&&(!motionOnly||hasMotion(r))&&(!query||[r.title,r.studio,r.medium,r.line,r.description,r.fit,...r.tags,categories[r.category][0]].join(' ').toLowerCase().includes(query)));
+document.querySelectorAll('[data-filter]').forEach(b=>{b.setAttribute('aria-pressed',b.dataset.filter===filter);b.querySelector('sup').textContent=String(refs.filter(r=>(b.dataset.filter==='all'||(b.dataset.filter==='received'?received.has(r.id):r.category===b.dataset.filter))&&(!motionOnly||hasMotion(r))).length).padStart(2,'0');});
+visible=refs.filter(r=>(filter==='all'||(filter==='received'?received.has(r.id):r.category===filter))&&true&&(!motionOnly||hasMotion(r))&&(!query||[r.title,r.studio,r.medium,r.line,r.description,r.fit,...r.tags,categories[r.category][0]].join(' ').toLowerCase().includes(query)));
 $('#motionToggle').setAttribute('aria-pressed',motionOnly);$('#empty').hidden=visible.length>0;
 $('#gallery').innerHTML=visible.map(r=>`<article class="card" data-id="${r.id}"><div class="card-media"><button class="open-image" data-open="${r.id}" aria-label="查看 ${esc(r.title)}"><img src="${r.images[0].local}" alt="${esc(r.title+' — '+r.line)}" loading="lazy" decoding="async"></button><span class="card-number">${String(refs.indexOf(r)+1).padStart(2,'0')}</span><span class="received-like" data-received="${r.id}" hidden></span><button class="bookmark" data-save="${r.id}" aria-label="收藏 ${esc(r.title)}" aria-pressed="false">♡</button><button class="preview-play" data-play="${r.id}" aria-label="在卡片中预览 ${esc(r.title)}" aria-expanded="false">${r.interactive?'↔':hasMotion(r)?'▷':'⊕'} <span>${r.interactive?'直接交互':hasMotion(r)?'直接播放':'放大查看'}</span></button></div><div class="card-copy"><p class="recommendation" data-reason="${r.id}">${esc(reasonFor(r))}</p><p class="work-kind">${esc(r.medium)}</p><div class="card-title-row"><button class="card-title" data-open="${r.id}">${esc(r.title)}</button>${r.pick?'<span class="pick-dot" title="优先推荐" aria-label="优先推荐"></span>':''}</div><p class="card-studio">${esc(r.studio)}</p><p class="card-line">${esc(r.line)}</p><div class="card-bottom"><span class="card-category">${categories[r.category][0]}</span><div class="card-tags">${r.tags.slice(0,2).map(t=>`<span>${esc(t)}</span>`).join('')}</div></div></article>`).join('');
 syncSaved();startPreviews();}
-function setFilter(value){filter=value;render();}
+function setFilter(value){favorites=false;filter=value;if(value==='all'){motionOnly=false;query='';$('#search').value='';}render();}
 function reset(){favorites=false;motionOnly=false;query='';filter='all';$('#search').value='';render();}
-function showSaved(){favorites=!favorites;motionOnly=false;query='';$('#search').value='';setFilter('all');$('#archive').scrollIntoView({behavior:'smooth'});}
+function showSaved(){motionOnly=false;query='';$('#search').value='';setFilter('received');$('#archive').scrollIntoView({behavior:'smooth'});}
 function clearMedia(){const v=$('#mediaStage video');if(v)v.pause();$('#mediaStage').replaceChildren();}
 function showMedia(kind){clearMedia();let note='原作图像预览 · 选择下方按钮切换细节';
 if(kind==='interactive'){const f=document.createElement('iframe');f.src=active.interactive;f.title=active.title+' 交互预览';$('#mediaStage').append(f);note='运行原作者开源 Shader · 本页提供配色、速度与指针控制';}
@@ -125,6 +125,8 @@ render();feedbackStore.sync();const requested=location.hash.match(/^#work=([a-z0
 // Public aggregate counts are separate from this browser's own vote state.
 function syncReceived(){
  document.querySelectorAll('.saved-count').forEach(el=>el.textContent=received.size);
+ const tab=document.querySelector('[data-filter="received"] sup');
+ if(tab)tab.textContent=String(refs.filter(r=>received.has(r.id)&&(!motionOnly||hasMotion(r))).length).padStart(2,'0');
  document.querySelectorAll('[data-received]').forEach(el=>{
   const count=received.get(el.dataset.received)||0;el.hidden=count===0;el.textContent='♥ '+count;el.title='收到 '+count+' 个赞';
  });
@@ -138,7 +140,7 @@ async function refreshReceived(){
   const data=await response.json();if(!Array.isArray(data.items))throw Error('Invalid likes');
   const next=new Map(data.items.filter(r=>catalogue.some(c=>c.id===r.id)&&Number.isInteger(r.likes)&&r.likes>0).map(r=>[r.id,r.likes]));
   const membershipChanged=next.size!==received.size||[...next.keys()].some(id=>!received.has(id));received=next;
-  if(favorites&&membershipChanged)render();else syncReceived();
+  if(filter==='received'&&membershipChanged)render();else syncReceived();
   $('#collectionTop').title='收到的点赞 · 自动更新';
  }catch{$('#collectionTop').title='点赞数据暂时无法更新，稍后自动重试';}
  finally{receivedBusy=false;}
