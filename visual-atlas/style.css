@@ -76,3 +76,5 @@
 @media(prefers-reduced-motion:reduce){.carousel-controls{transition:none}}
 
 #feedbackSync{font-size:10px;color:var(--muted);max-width:90px} @media(max-width:650px){#feedbackSync{display:none}}
+
+.received-like{position:absolute;left:14px;top:14px;z-index:12;background:var(--accent,#e8f3ab);color:#171a11;padding:7px 10px;border-radius:20px;font-size:12px;font-weight:600;pointer-events:none}.received-like[hidden]{display:none}
